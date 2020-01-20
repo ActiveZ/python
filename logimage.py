@@ -116,58 +116,6 @@ def cartesien2():
     cartes = np.transpose([np.tile(x, len(y)), np.repeat(y, len(x))])
     print("cart: ", cartes)
 
-
-def cartesian(arrays, out=None):
-    """
-    Generate a cartesian product of input arrays.
-
-    Parameters
-    ----------
-    arrays : list of array-like
-        1-D arrays to form the cartesian product of.
-    out : ndarray
-        Array to place the cartesian product in.
-
-    Returns
-    -------
-    out : ndarray
-        2-D array of shape (M, len(arrays)) containing cartesian products
-        formed of input arrays.
-
-    Examples
-    --------
-    >>> cartesian(([1, 2, 3], [4, 5], [6, 7]))
-    array([[1, 4, 6],
-           [1, 4, 7],
-           [1, 5, 6],
-           [1, 5, 7],
-           [2, 4, 6],
-           [2, 4, 7],
-           [2, 5, 6],
-           [2, 5, 7],
-           [3, 4, 6],
-           [3, 4, 7],
-           [3, 5, 6],
-           [3, 5, 7]])
-
-    """
-
-    arrays = [np.asarray(x) for x in arrays]
-    dtype = arrays[0].dtype
-
-    n = np.prod([x.size for x in arrays])
-    if out is None:
-        out = np.zeros([n, len(arrays)], dtype=dtype)
-
-    m = int(n / arrays[0].size)
-    out[:, 0] = np.repeat(arrays[0], m)
-    if arrays[1:]:
-        cartesian(arrays[1:], out=out[0:m, 1:])
-        for j in range(1, arrays[0].size):
-            out[j * m:(j + 1) * m, 1:] = out[0:m, 1:]
-    return out
-
-
 class Ligne:
     def __init__(self, ligne):
         self.ligne = ligne
@@ -185,7 +133,7 @@ class Colonne:
         [print("colonne", i, obj_colonne.colonne[i]) for i in range(nbColonne)]
 
 
-def replace(tablo):  # remplace [2,3] par [1,1,0,1,1,1,]
+def replace(tablo):  # remplace [2,3] par [1,1,0,1,1,1,] ok
     print("Replace Tablo: ", tablo)
     x = np.array([], dtype=np.byte)
     for i in tablo:
@@ -229,16 +177,7 @@ obj_colonne.list_colonne()
 
 # en_test()
 # a1 + x1 + a2 + x2 + a3 + x3 + ... + an + xn + an+1 les extremes peuvent = 0, pas les autres
-s = cartesian(([1, 2, 3], [0, 0, 0, 0, 0, 0]))
-print("s: ", s)
-# cartesien2()
 
-# replace([0,0,1, 0,0, 4, 2]) # ok !
-# test_combi([1,3,5])
-x = np.array([1, 2, 3, 0, 0, 0, 0, 0, 0, 0])
-y = np.array([0, 0, 0, 0, 0, 0])
-for i in x:
-    print(i)
 
 arra = np.ones((8, 8))
 print("Original array:")
@@ -261,15 +200,16 @@ print("\nMemory size pour eye int")
 print(x.itemsize)
 print("eye:\n", x)
 
-x = np.diagflat([4, 5, 6, 8, 0, 0, 0, 0])
-print("diagflat:\n", x)
-x = np.diagflat([0, 0, 1, 1, 1, 1, 1])
-print("diagflat2:\n", x)
+# x = np.diagflat([4, 5, 6, 8, 0, 0, 0, 0])
 
-#print("iterTools")
-# x=list(itertools.combinations(range(5), 2))
-# x = list(itertools.combinations([1, 2, 3, 0, 0, 0, 0], 3))
-# print(x)
+x = np.diagflat(np.ones(6,dtype=int)*3)
+print("diagflat:\n", x)
+y=np.ones(6, dtype=int)*8
+print("y: ",y)
+z=np.ones(6, dtype=int)*5
+x=np.insert(x,0,y,axis=1)
+x=np.insert(x,0,z,axis=1)
+print("diagflat2:\n", x)
 
 x=scipy.special.comb(6,3) # C(n,k)
 print("comb: ", x)
