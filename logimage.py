@@ -1,10 +1,13 @@
 import itertools
 import tkinter as tk
-
+import timeit
 # import cartesian as cartesian
 import numpy as np
 import scipy.special
+from sympy.utilities.iterables import multiset_permutations
 
+
+# https://openclassrooms.com/fr/courses/4452741-decouvrez-les-librairies-python-pour-la-data-science/4740941-plongez-en-detail-dans-la-librairie-numpy
 
 def en_test():
     x1 = np.random.randint(10, size=(3, 4))  # Tableau de dimension 2
@@ -116,6 +119,7 @@ def cartesien2():
     cartes = np.transpose([np.tile(x, len(y)), np.repeat(y, len(x))])
     print("cart: ", cartes)
 
+
 class Ligne:
     def __init__(self, ligne):
         self.ligne = ligne
@@ -148,6 +152,81 @@ def test_combi(tablo):
     print("n: ", n)
 
     # print("x: ", x)
+
+
+def factorielleAddition(n):
+    """Ceci est une fonction récursive qui appelle
+    lui-même pour trouver la factorielle du nombre donné"""
+    if n == 1:
+        return n
+    else:
+        return n + factorielleAddition(n - 1)
+
+
+def test1(n, k):
+    print("n:", n, "  k:", k)
+    nbCombi = scipy.special.comb(n, k, exact=True)  # C(n,k) resultat entier
+    tabSomme = np.arange(1, n - k + 2)
+    print(tabSomme)
+    print("somme:", factorielleAddition(n))
+    print("nbCombi2 = ", np.sum(np.arange(1, n - k + 2)))
+    print("nb combi: ", nbCombi)
+    test1 = [4, 6, 0, 0, 0, 0]
+    # for i in range (nbCombi):
+    #     test0 = np.eye(n - k + 1, n, 2, dtype=np.byte)
+    #     test1 = test1 + test0
+    print("test1: \n", test1)
+
+
+def decoupeTablo():
+    test0 = np.eye(6, dtype=np.byte)
+    print("test0: \n", test0, "\nnb elts:", test0.size)
+    print(test0[3, :])
+
+
+def tabloBourrin(tablo, n):
+    k = len(tablo)
+    nbCombi = scipy.special.comb(n, k, exact=True)  # C(n,k) resultat entier
+    print("n:", n, "  k:", k, '  nb combi:', nbCombi)
+    print("somme:", factorielleAddition(n))
+    # test2=np.zeros((nbCombi,n),dtype=int)
+    # print("test2: \n", test2)
+    # test2=np.concatenate(tablo, np.zeros((3)dtype=int))
+    tablo = [2, 3, 4, 0, 0, 0]
+    # print("test2: \n", test2)
+    i = n - k + 1
+    while i > 0:
+        for x in range(i):
+            print(i)
+        i -= 1
+
+
+def permutationItertool():
+    print("permutations")
+    k = np.array([6, 7, 8])
+    print("k:", k)
+    a = np.array([6, 7, 8, 0, 0, 0])
+    b = list(set(itertools.permutations(a)))
+    b = np.array(list(set(itertools.permutations(a))))
+    for x in b:
+        print("x:",x)
+        print("x:", x[x != 0])
+
+        y = np.where(np.array_equal(x[x != 0],k), x, [0,0,0,0,0,0])
+        print("y:", y)
+        # np.delete(b,)
+        print("----------")
+
+    print("test:",np.all(b[b != 0], axis=0))
+    # b=np.unique(b,axis=0) # inutile
+    # print("b:", b, "\nLong:", len(b))
+
+
+# def permutationSimpy(): # 4 fois plus lent que itertools !!!
+#     # print("simpy")
+#     a = np.array([6, 7, 8, 0, 0, 0])
+#     b = np.array(list(multiset_permutations(a)))
+#     # print("b:", b, "\nLong:", len(b))
 
 
 # ----------------maim-----------------------
@@ -200,16 +279,28 @@ print("\nMemory size pour eye int")
 print(x.itemsize)
 print("eye:\n", x)
 
-# x = np.diagflat([4, 5, 6, 8, 0, 0, 0, 0])
+print("diag = ", np.diagflat([4, 5, 6, 8, 0, 0, 0, 0]))
 
-x = np.diagflat(np.ones(6,dtype=int)*3)
+x = np.diagflat(np.ones(6, dtype=int) * 3)
 print("diagflat:\n", x)
-y=np.ones(6, dtype=int)*8
-print("y: ",y)
-z=np.ones(6, dtype=int)*5
-x=np.insert(x,0,y,axis=1)
-x=np.insert(x,0,z,axis=1)
+y = np.ones(6, dtype=int) * 8
+print("y: ", y)
+z = np.ones(6, dtype=int) * 5
+x = np.insert(x, 0, y, axis=1)
+x = np.insert(x, 0, z, axis=1)
 print("diagflat2:\n", x)
 
-x=scipy.special.comb(6,3) # C(n,k)
+x = scipy.special.comb(7, 3, exact=True)  # C(n,k)
 print("comb: ", x)
+
+test1(6, 3)
+tabloBourrin([2, 3, 4], 6)
+
+# debut=timeit.default_timer()
+# decoupeTablo()
+# print("duree: ", timeit.default_timer() - debut)
+
+print("duree: ", timeit.timeit(stmt=decoupeTablo, number=1))
+
+print("duree: ", timeit.timeit(stmt=permutationItertool, number=1))
+# print("duree: ", timeit.timeit(stmt=permutationSimpy, number=1))
