@@ -205,7 +205,7 @@ def permutationItertool(tabloK, longeurLigne):
     print("------------- permutations ----------------")
     result = np.array([], dtype=int)
     print("tablo K:", tabloK, "  n:", longeurLigne)
-    a = np.array([6, 7, 8, 0, 0, 0])
+    # a = np.array([6, 7, 8, 0, 0, 0])
     a = np.array(np.append(tabloK, np.zeros(longeurLigne - len(tabloK))),
                  dtype=int)  # exemple [6, 7, 8, 0, 0, 0] si tabloK=[6,7,8] et longueurLigne=6
     # print("a:", a)
@@ -225,7 +225,7 @@ def transformationBinaire(tablo):
         result = np.append(result, np.ones(x, dtype=int))
         result = np.append(result, [0])
         # result += np.ones(x,dtype=int)
-    result= result[:-1] # suppression du dernier element 0
+    result = result[:-1]  # suppression du dernier element 0
     # print("result:", result)
     return result
 
@@ -310,5 +310,17 @@ z = permutationItertool(k, n)
 print("duree: ", timeit.default_timer() - debut)
 print("result:", z, "\nshape:", z.shape)
 
-z=transformationBinaire(k)
+z = transformationBinaire(k)
 print("result:", z)
+
+
+dim=k.sum() + n -1
+# print("dim:", dim)
+z=np.array([[]],dtype=int).reshape(-1,dim)
+for x in permutationItertool(k, n):
+    # print("x:", x)
+    # y = transformationBinaire(x)
+    # print("y:", y)
+    z=np.vstack([z, transformationBinaire(x)])
+    # z=np.concatenate((z,y))
+print("result z:\n", z)
