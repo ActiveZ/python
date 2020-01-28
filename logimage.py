@@ -206,7 +206,8 @@ def permutationItertool(tabloK, longeurLigne):
     result = np.array([], dtype=int)
     print("tablo K:", tabloK, "  n:", longeurLigne)
     a = np.array([6, 7, 8, 0, 0, 0])
-    a = np.array(np.append(tabloK, np.zeros(longeurLigne - len(tabloK))), dtype=int)  # exemple [6, 7, 8, 0, 0, 0] si tabloK=[6,7,8] et longueurLigne=6
+    a = np.array(np.append(tabloK, np.zeros(longeurLigne - len(tabloK))),
+                 dtype=int)  # exemple [6, 7, 8, 0, 0, 0] si tabloK=[6,7,8] et longueurLigne=6
     # print("a:", a)
     a = np.array(list(set(itertools.permutations(a))))
     for x in a:
@@ -214,6 +215,18 @@ def permutationItertool(tabloK, longeurLigne):
             result = np.append(result, x)  # alors je la garde dans result
     result = np.reshape(result, (-1, longeurLigne))
     # print("result:", result, "\nshape:", result.shape)
+    return result
+
+
+def transformationBinaire(tablo):
+    # print("tablo:", tablo)
+    result = np.array([], dtype=int)
+    for x in tablo:
+        result = np.append(result, np.ones(x, dtype=int))
+        result = np.append(result, [0])
+        # result += np.ones(x,dtype=int)
+    result= result[:-1] # suppression du dernier element 0
+    # print("result:", result)
     return result
 
 
@@ -290,9 +303,12 @@ tabloBourrin([2, 3, 4], 6)
 
 print("duree: ", timeit.timeit(stmt=decoupeTablo, number=1))
 
-k = np.array([6, 7, 8])
+k = np.array([1, 2, 3])
 n = 6
 debut = timeit.default_timer()
 z = permutationItertool(k, n)
 print("duree: ", timeit.default_timer() - debut)
 print("result:", z, "\nshape:", z.shape)
+
+z=transformationBinaire(k)
+print("result:", z)
