@@ -204,22 +204,28 @@ def tabloBourrin(tablo, n):
 def permutationItertool():
     print("permutations")
     k = np.array([6, 7, 8])
+    z = np.array([],dtype=int)
     print("k:", k)
     a = np.array([6, 7, 8, 0, 0, 0])
     b = list(set(itertools.permutations(a)))
     b = np.array(list(set(itertools.permutations(a))))
     for x in b:
-        print("x:",x)
+        print("x:", x)
         print("x:", x[x != 0])
 
-        y = np.where(np.array_equal(x[x != 0],k), x, [0,0,0,0,0,0])
+        y = np.array_equal(x[x != 0], k)
+        if (y):
+            z=np.append(z,x)
         print("y:", y)
-        # np.delete(b,)
         print("----------")
-
-    print("test:",np.all(b[b != 0], axis=0))
+    print("----------")
+    z=np.reshape(z, (-1, 6))
+    print("z:",z, "\nshape:", z.shape)
+    # print("test:",b[:,np.array_equal(x[x != 0],k)])
+    # print("test:", b[np.array_equal(b[b != 0], k)])
     # b=np.unique(b,axis=0) # inutile
     # print("b:", b, "\nLong:", len(b))
+    # print("eq:",np.array_equiv([2, 4], [2, 4,0]))
 
 
 # def permutationSimpy(): # 4 fois plus lent que itertools !!!
