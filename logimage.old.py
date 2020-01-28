@@ -201,20 +201,33 @@ def tabloBourrin(tablo, n):
         i -= 1
 
 
-def permutationItertool(tabloK, longeurLigne):
-    print("------------- permutations ----------------")
-    result = np.array([], dtype=int)
-    print("tablo K:", tabloK, "  n:", longeurLigne)
+def permutationItertool():
+    print("permutations")
+    k = np.array([6, 7, 8])
+    z = np.array([],dtype=int)
+    print("k:", k)
     a = np.array([6, 7, 8, 0, 0, 0])
-    a = np.array(np.append(tabloK, np.zeros(longeurLigne - len(tabloK))), dtype=int)  # exemple [6, 7, 8, 0, 0, 0] si tabloK=[6,7,8] et longueurLigne=6
-    # print("a:", a)
-    a = np.array(list(set(itertools.permutations(a))))
-    for x in a:
-        if np.array_equal(x[x != 0], tabloK):  # si la permutation sans les zeros est égale au tabloK
-            result = np.append(result, x)  # alors je la garde dans result
-    result = np.reshape(result, (-1, longeurLigne))
-    # print("result:", result, "\nshape:", result.shape)
-    return result
+    b = list(set(itertools.permutations(a)))
+    b = np.array(list(set(itertools.permutations(a))))
+    for x in b:
+        print("x:", x)
+        print("x:", x[x != 0])
+
+        y = np.array_equal(x[x != 0], k)
+        if (y):
+            z=np.append(z,x)
+        print("y:", y)
+        print("----------")
+    print("----------")
+    z=np.reshape(z, (-1, 6))
+    print("z:",z, "\nshape:", z.shape)
+
+
+# def permutationSimpy(): # 4 fois plus lent que itertools !!!
+#     # print("simpy")
+#     a = np.array([6, 7, 8, 0, 0, 0])
+#     b = np.array(list(multiset_permutations(a)))
+#     # print("b:", b, "\nLong:", len(b))
 
 
 # ----------------maim-----------------------
@@ -290,9 +303,5 @@ tabloBourrin([2, 3, 4], 6)
 
 print("duree: ", timeit.timeit(stmt=decoupeTablo, number=1))
 
-k = np.array([6, 7, 8])
-n = 6
-debut = timeit.default_timer()
-z = permutationItertool(k, n)
-print("duree: ", timeit.default_timer() - debut)
-print("result:", z, "\nshape:", z.shape)
+print("duree: ", timeit.timeit(stmt=permutationItertool, number=1))
+# print("duree: ", timeit.timeit(stmt=permutationSimpy, number=1))
