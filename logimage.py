@@ -220,10 +220,10 @@ def permutationItertool(tabloK, longeurLigne):
 
 def transformationBinaire(tablo):
     # print("tablo:", tablo)
-    result = np.array([], dtype=int)
+    result = np.array([], dtype=bool)
     for x in tablo:
-        result = np.append(result, np.ones(x, dtype=int))
-        result = np.append(result, [0])
+        result = np.append(result, np.ones(x, dtype=bool))
+        result = np.append(result, [False])
         # result += np.ones(x,dtype=int)
     result = result[:-1]  # suppression du dernier element 0
     # print("result:", result)
@@ -316,7 +316,7 @@ print("result:", z)
 
 dim=k.sum() + n -1
 # print("dim:", dim)
-z=np.array([[]],dtype=int).reshape(-1,dim)
+z=np.array([[]],dtype=bool).reshape(-1,dim)
 for x in permutationItertool(k, n):
     # print("x:", x)
     # y = transformationBinaire(x)
