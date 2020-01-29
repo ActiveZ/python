@@ -214,17 +214,16 @@ def permutationItertool(tabloK, longeurLigne):
         if np.array_equal(x[x != 0], tabloK):  # si la permutation sans les zeros est égale au tabloK
             result = np.append(result, x)  # alors je la garde dans result
     result = np.reshape(result, (-1, longeurLigne))
-    # print("result:", result, "\nshape:", result.shape)
+    # print("result: permut\n", result, "\nshape:", result.shape)
     return result
 
 
-def transformationBinaire(tablo):
-    # print("tablo:", tablo)
+def transformationBinaire(tablo):  # cf def replace
+    # print("tablo TB:", tablo)
     result = np.array([], dtype=bool)
     for x in tablo:
         result = np.append(result, np.ones(x, dtype=bool))
         result = np.append(result, [False])
-        # result += np.ones(x,dtype=int)
     result = result[:-1]  # suppression du dernier element 0
     # print("result:", result)
     return result
@@ -303,8 +302,9 @@ tabloBourrin([2, 3, 4], 6)
 
 print("duree: ", timeit.timeit(stmt=decoupeTablo, number=1))
 
-k = np.array([1, 2, 3])
-n = 6
+k = np.array([9])
+n = 7 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+dim = k.sum() + n - 1
 debut = timeit.default_timer()
 z = permutationItertool(k, n)
 print("duree: ", timeit.default_timer() - debut)
@@ -313,14 +313,19 @@ print("result:", z, "\nshape:", z.shape)
 z = transformationBinaire(k)
 print("result:", z)
 
-
-dim=k.sum() + n -1
-# print("dim:", dim)
-z=np.array([[]],dtype=bool).reshape(-1,dim)
+print("dim:", dim)
+z = np.array([[]], dtype=bool).reshape(-1, dim)
 for x in permutationItertool(k, n):
     # print("x:", x)
     # y = transformationBinaire(x)
     # print("y:", y)
-    z=np.vstack([z, transformationBinaire(x)])
+    z = np.vstack([z, transformationBinaire(x)])
+    # print("res zn:\n", z)
     # z=np.concatenate((z,y))
 print("result z:\n", z)
+
+print("taille z:", z.shape)
+print("Les sommes des colonnes de z: ", np.logical_or(z.sum(axis=0) == 0, z.sum(axis=0) == z.shape[0]))
+# print("Les sommes des colonnes de z: ", z.sum(axis=0,dtype=int))
+# print("Les sommes des colonnes de z: ", z.sum(axis=0,dtype=bool))
+print("fini")
