@@ -89,9 +89,9 @@ def test_combi(tablo):
 
 
 def factorielleAddition(n):
-    total=0
-    for x in range(n+1):
-        total+= x
+    total = 0
+    for x in range(n + 1):
+        total += x
     # print("n:", n, "somme:", total)
     return total
 
@@ -103,17 +103,19 @@ def decoupeTablo():
 
 
 def permutationItertool(tabloK, longueurLigne):
-    # print("------------- permutations ----------------")
+    print("------------- permutations ----------------")
     result = np.array([], dtype=int)
-    longueurLigne= longueurLigne-tabloK.sum()+1
+    longueurLigne = longueurLigne - tabloK.sum() + len(tabloK)
     a = np.array(np.append(tabloK, np.zeros(longueurLigne - len(tabloK))),
                  dtype=int)  # exemple [6, 7, 8, 0, 0, 0] si tabloK=[6,7,8] et longueurLigne=6
+    a=np.copy(tabloK) # en chantier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    print("aaaa:",a)
     a = np.array(list(set(itertools.permutations(a))))
     for x in a:
         if np.array_equal(x[x != 0], tabloK):  # si la permutation sans les zeros est égale au tabloK
             result = np.append(result, x)  # alors je la garde dans result
     result = np.reshape(result, (-1, longueurLigne))
-    # print("result: permut\n", result, "\nshape:", result.shape)
+    print("result: permut\n", result, "\nshape:", result.shape)
     return result
 
 
@@ -126,6 +128,17 @@ def transformationBinaire(tablo):  # cf def replace
     result = result[:-1]  # suppression du dernier element 0
     # print("result:", result)
     return result
+
+
+def sommeColonnes(tabloData, nbCol):
+    print("------------------- somme colonnes ---------------------------------")
+    z = np.array([[]], dtype=bool).reshape(-1, nbCol)
+    for x in permutationItertool(tabloData, nbCol):
+        z = np.vstack([z, transformationBinaire(x)])
+    # print("result z:\n", z)
+    print("taille z:", z.shape)
+    print("Somme des colonnes de z: ", np.logical_or(z.sum(axis=0) == 0, z.sum(axis=0) == z.shape[0]))
+    # true signifie 0 ou 1 !
 
 
 # ----------------maim-----------------------
@@ -149,20 +162,17 @@ tabloLigne = csv[csv.shape[0] - nbLigne:, :csv.shape[1] - nbColonne]
 
 obj_ligne = Ligne(tabloLigne)
 # obj_ligne.list_ligne()
-# print("-------------------------------------------------------------")
+
 obj_colonne = Colonne(tabloColonne)
 # obj_colonne.list_colonne()
+# print("-------------------------------------------------------------")
 
-k = np.array([10])
-# nbColonne=15
+k = np.array([1,2,3])
+nbColonne=10
+
+
 print("tablo K:", k, "  Longueur ligne:", nbColonne)
 
-z = np.array([[]], dtype=bool).reshape(-1, nbColonne)
-for x in permutationItertool(k, nbColonne):
-    z = np.vstack([z, transformationBinaire(x)])
-# print("result z:\n", z)
-
-print("taille z:", z.shape)
-print("Somme des colonnes de z: ", np.logical_or(z.sum(axis=0) == 0, z.sum(axis=0) == z.shape[0]))
-# true signifie 0 ou 1 !
-
+debut = timeit.default_timer()
+sommeColonnes(k, nbColonne)
+print("duree: ", timeit.default_timer() - debut)
