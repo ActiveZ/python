@@ -92,7 +92,7 @@ def transformationBinaire(tablo):  # cf def replace
     # print("result:", result)
     return result
 
-# en panne !!!!!!!!!!!!!
+# en panne !!!!!!!!!!!!!!
 def sommeColonnes(tabloData, nbCol): # somme vertivale des colonnes
     print("------------------- somme colonnes ---------------------------------")
     z = np.array([], dtype=bool)# .reshape(-1, nbCol)
