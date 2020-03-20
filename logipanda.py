@@ -92,20 +92,32 @@ def transformationBinaire(tablo):  # cf def replace
     # print("result:", result)
     return result
 
+
 # en panne !!!!!!!!!!!!!!
-def sommeColonnes(tabloData, nbCol): # somme vertivale des colonnes
+def sommeColonnes1(tabloData, nbCol):  # somme verticale des colonnes
     print("------------------- somme colonnes ---------------------------------")
-    z = np.array([], dtype=bool)# .reshape(-1, nbCol)
+    z = np.array([[]], dtype=bool)  # .reshape(-1, nbCol)
     # print("result: permutSC\n", permutationItertool(tabloData, nbCol))
     # print("result: permutSC2\n", transformationBinaire(permutationItertool(tabloData, nbCol)))
     for x in permutationItertool(tabloData, nbCol):
-        z = np.append(z,transformationBinaire(x),axis=0)
+        z = np.append(z, transformationBinaire(x), axis=0)
         # print(("x;",transformationBinaire(x)))
-    print("result z:\n", z.reshape(-1,nbColonne))
+    print("result z:\n", z.reshape(-1, nbColonne))
     # print("taille z:", z.shape)
     print("Somme des colonnes de z: ", np.logical_or(z.sum(axis=0) == 0, z.sum(axis=0) == z.shape[0]))
     # true signifie 0 ou 1 !
 
+
+def sommeColonnes(tabloData, nbCol):
+    print("------------------- somme colonnes ---------------------------------")
+    z = np.array([[]], dtype=bool) # .reshape(-1, nbCol)
+    for x in permutationItertool(tabloData, nbCol):
+        # z = np.vstack([z, transformationBinaire(x)])
+        print(("x;", transformationBinaire(x)))
+    print("result z:\n", z)
+    print("taille z:", z.shape)
+    print("Somme des colonnes de z: ", np.logical_or(z.sum(axis=0) == 0, z.sum(axis=0) == z.shape[0]))
+    # true signifie 0 ou 1 !
 
 
 # ----------------maim-----------------------
@@ -135,9 +147,8 @@ obj_colonne = Colonne(tabloColonne)
 
 # print("-------------------------------------------------------------")
 
-k = np.array([1,2,3])
-nbColonne=10
-
+k = np.array([1, 2, 3])
+nbColonne = 10
 
 print("tablo K:", k, "  Longueur ligne:", nbColonne)
 

@@ -143,7 +143,6 @@ def sommeColonnes(tabloData, nbCol):
 
 # ----------------maim-----------------------
 # affiche_damier()
-
 np.random.seed()
 # ----------------------saisie--------------------------------
 nbLigne = 15
